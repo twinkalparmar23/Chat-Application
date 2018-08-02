@@ -43,6 +43,21 @@ namespace chatDemo.Controllers
             return CreatedAtAction("get msg", new { id = msgmodel.Id }, msgmodel);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody]MessageModel msgmodel)
+        {
+            if (id != msgmodel.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(msgmodel).State = EntityState.Modified;
+            
+             await _context.SaveChangesAsync();
+            
+            return NoContent();
+        }
+
         //// PUT api/<controller>/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody]string value)

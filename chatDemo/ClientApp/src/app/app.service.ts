@@ -59,6 +59,11 @@ export class AppService {
       .pipe(map(res => res.json()));
   }
 
+  modifyMessage(id:number,msgmodel: Message) {
+    return this._httpService.put('/api/Message' + '/' + id, msgmodel)
+      .pipe(map(res => res.json()));
+  }
+
   getMessages() {
     return this._httpService.get('/api/Message')
       .pipe(map(res => res.json()));

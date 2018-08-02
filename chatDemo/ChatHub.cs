@@ -16,13 +16,12 @@ namespace chatDemo
         private readonly UserDbContext _context;
 
         private User user;
+        private MessageModel Msg;
 
         public ChatHub(UserDbContext context)
         {
             _context = context;
         }
-
-       
 
         public void getId(string sender)
         {
@@ -43,7 +42,6 @@ namespace chatDemo
             _context.Users.Attach(user);
             _context.Entry(user).State = EntityState.Modified;
             _context.SaveChanges();
-
         }
 
         public void removeStatus(string sender)
@@ -59,9 +57,21 @@ namespace chatDemo
         public async Task Send(string sender,string receiver,string senderConnId,string receiverId, string message,string date)
         {
             
+
             await Clients.Client(senderConnId).SendAsync("Send", sender, message,date);
             await Clients.Client(receiverId).SendAsync("Send", sender, message,date);
-           
+
+            //Msg = _context.Messages.SingleOrDefault(u => (u.Sender == sender && u.Receiver == receiver && u.Message == message));
+            //user = _context.Users.SingleOrDefault(u => u.UserName == receiver);
+            //if (user.Connected == false)
+            //{
+            //    Msg.Unread = true;
+            //}
+        }
+
+        public async Task sendToMe(string sender, string senderConnId, string msg, string date)
+        {
+            await Clients.Client(senderConnId).SendAsync("sendToMe", sender, msg, date);
         }
     }
 }

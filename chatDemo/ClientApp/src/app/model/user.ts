@@ -1,18 +1,21 @@
 export interface IUser {
 
   Id: number;
-  UserName: string;
+  userName: string;
  
 }
 
 
 export class User implements IUser {
   constructor(
-  ) { }
+  ) {
+    
+  }
 
  public  Id: number;
-  public UserName: string;
+  public userName: string;
   public Password: string;
   public connId: string;
   public Connected: boolean;
+  public count: number=0;
 }

@@ -9,11 +9,11 @@ export class HubService {
 
   message = '';
   messages: string[] = [];
+  myMessage: string[] = [];
 
   constructor() {
     this.initHub();
   }
-
   
   private initHub() {
     this._hubConnection = new signalR.HubConnectionBuilder()
@@ -31,7 +31,15 @@ export class HubService {
 
     this._hubConnection.on('Send', (sender: string, receivedMessage: string, date: string) => {
       this.message = `${sender}:${receivedMessage},${date}`;
+      
       this.messages.push(this.message);
+      this.message = '';
+    });
+
+    this._hubConnection.on('sendToMe', (sender: string, receivedMessage: string, date: string) => {
+      this.message = `${sender}:${receivedMessage},${date}`;
+
+      this.myMessage.push(this.message);
       this.message = '';
     });
 
@@ -43,8 +51,14 @@ export class HubService {
   }
 
   sendMessage(sender: string, receiver: string, senderConnId: string, connId: string, msg: string, date: string) {
+    //this.messages = [];
     this._hubConnection.invoke('Send', sender, receiver, senderConnId, connId, msg, date);
     return this.messages;
+  }
+
+  sendToMe(sender: string, senderConnId: string, msg: string, date: string) {
+    this._hubConnection.invoke('sendToMe', sender, senderConnId, msg, date);
+    return this.myMessage;
   }
 
   setStatus(sender: string,status: boolean) {

@@ -65,8 +65,9 @@ namespace chatDemo.Controllers
             _context.Users.Add(user);
                 await _context.SaveChangesAsync();
                 return CreatedAtAction("get user", new { id = user.Id }, user);
-
-           
+            
         }
+
+
     }
 }

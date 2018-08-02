@@ -7,4 +7,5 @@ export class Message  {
   public Receiver: string;
   public Message: string;
   public dateTime: Date;
+  public Unread: boolean ;
 }

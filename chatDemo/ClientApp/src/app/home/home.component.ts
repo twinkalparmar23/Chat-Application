@@ -30,14 +30,14 @@ export class HomeComponent implements OnInit {
 
   onSubmit(form: any) {
 
-    this.sender = this.model.UserName;
+    this.sender = this.model.userName;
     this.password = this.model.Password;
-    this._appService.senderAdd(this.model.UserName);
+    this._appService.senderAdd(this.model.userName);
     
-      this._appService.getUserByName(this.model.UserName).subscribe((data: any) => {
+      this._appService.getUserByName(this.model.userName).subscribe((data: any) => {
 
         if (this.sender == data.userName && this.password == data.password) {
-          this.router.navigate(['/chat/', this.model.UserName])
+          this.router.navigate(['/chat/', this.model.userName])
         }
         else {
           alert("please register..");
